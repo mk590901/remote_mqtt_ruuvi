@@ -2,6 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import '../gui_adapter/service_adapter.dart';
+import 'list_bloc.dart';
 
 // Events
 abstract class RemoteBleEvent {}
@@ -69,14 +70,14 @@ class RemoteBleState {
   final String?           state;
   final String?           measureType;
   final String?           value;
-  final bool              isSessionStarted;
+  //final bool              isSessionStarted;
   final bool              isScanning;
   final bool              isOnline;
 
   RemoteBleState({
     this.error = false,
     this.errorMessage,
-    this.deviceName = '',
+    this.deviceName = "Ruuvi 4D1B", //'',
     this.macAddress = '',
     this.rssi = 0,
     this.transmitterMAC = '',
@@ -85,7 +86,7 @@ class RemoteBleState {
     this.state,
     this.measureType,
     this.value,
-    this.isSessionStarted = false,
+    //this.isSessionStarted = false,
     this.isScanning = false,
     this.isOnline = false,
   });
@@ -121,7 +122,7 @@ class RemoteBleState {
       state: state ?? this.state,
       measureType: measureType ?? this.measureType,
       value: value ?? this.value,
-      isSessionStarted: isSessionStarted ?? this.isSessionStarted,
+      //isSessionStarted: isSessionStarted ?? this.isSessionStarted,
       isScanning: isScanning ?? this.isScanning,
       isOnline: isOnline ?? this.isOnline,
     );
@@ -165,10 +166,10 @@ class RemoteBleBloc extends Bloc<RemoteBleEvent, RemoteBleState> {
     if (mqttOk == null || mqttOk == false) {
       message = "MQTT client problems!";
     }
-    else
-    if (!state.isSessionStarted)  {
-      message = "First start session.";
-    }
+    // else
+    // if (!state.isSessionStarted)  {
+    //   message = "First start session.";
+    // }
 
     if (message.isNotEmpty) {
       emit(state.copyWith(error: true, errorMessage: message,));
@@ -189,10 +190,10 @@ class RemoteBleBloc extends Bloc<RemoteBleEvent, RemoteBleState> {
     if (mqttOk == null || mqttOk == false) {
       message = "MQTT client problems!";
     }
-    else
-    if (state.isSessionStarted) {
-      message = "Session already started.";
-    }
+    // else
+    // if (state.isSessionStarted) {
+    //   message = "Session already started.";
+    // }
     else
     if (state.deviceName.isEmpty) {
       message = "BLE deviceName isn't defined.\nSelect device name from combo.";
@@ -212,18 +213,18 @@ class RemoteBleBloc extends Bloc<RemoteBleEvent, RemoteBleState> {
   //  We simply transfer the device name from the ComboBox to the chip control form
   Future<void> _onSelectDevice(SelectDevice event, Emitter<RemoteBleState> emit) async {
 
-    print ("_onSelectDevice->[${state.isSessionStarted}][${state.isScanning}]");
+    //print ("_onSelectDevice->[${state.isSessionStarted}][${state.isScanning}]");
 
     if (state.isScanning) {
       ServiceAdapter.instance()?.sendCommand("final-scan", state.deviceName);
     }
-    if (state.isSessionStarted) {
-      emit(state.copyWith(deviceName: event.selectedDeviceName,));
-    }
-    else {
-      emit(state.copyWith(deviceName: event.selectedDeviceName,
-          macAddress: '-', transmitterMAC: '-', transmitterName: '-'));
-    }
+    // if (state.isSessionStarted) {
+    //   emit(state.copyWith(deviceName: event.selectedDeviceName,));
+    // }
+    // else {
+    //   emit(state.copyWith(deviceName: event.selectedDeviceName,
+    //       macAddress: '-', transmitterMAC: '-', transmitterName: '-'));
+    // }
 
     ServiceAdapter.instance()?.setDeviceName(state.deviceName);
 
@@ -260,10 +261,10 @@ class RemoteBleBloc extends Bloc<RemoteBleEvent, RemoteBleState> {
     if (mqttOk == null || mqttOk == false) {
        message = "MQTT client problems!";
     }
-    else
-    if (!state.isSessionStarted)  {
-      message = "First start session.";
-    }
+    // else
+    // if (!state.isSessionStarted)  {
+    //   message = "First start session.";
+    // }
     else
     if (state.isScanning) {
        message = "Already scanning.";

@@ -31,13 +31,13 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   String _getTitle(PageStates state) {
     switch (state) {
       case PageStates.home:
-        return 'Controls';
+        return 'Control Panel';
       // case PageStates.trace:
       //   return 'Trace';
       // case PageStates.db:
       //   return 'Database';
       case PageStates.help:
-        return 'Help';
+        return 'About';
       case PageStates.dashboard:
         return 'Dashboard';
     }

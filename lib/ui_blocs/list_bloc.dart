@@ -27,9 +27,7 @@ class ListState {
 class ListBloc extends Bloc<ListEvent, ListState> {
 
   static final List<String> items = [
-    "R09_0803",
-    "COLMI R12_4503",
-    "R99 5C86",
+    "Ruuvi 4D1B",
   ];
 
   ListBloc()

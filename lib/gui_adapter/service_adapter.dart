@@ -263,10 +263,10 @@ class ServiceAdapter {
     print ('executeCommand->[${command.command}]');
   }
 
-  void updateWeather(String jsonString) {
-    print ('updateWeather->[$jsonString]');
-    //showJson(jsonString);
-  }
+  // void updateWeather(String jsonString) {
+  //   print ('updateWeather->[$jsonString]');
+  //   //showJson(jsonString);
+  // }
 
   void forceBleDeviceSelection(String? deviceName) {
     if (deviceName != null) {

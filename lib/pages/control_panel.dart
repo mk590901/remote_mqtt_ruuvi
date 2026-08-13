@@ -20,7 +20,7 @@ class ControlPanel extends StatelessWidget {
     // Home
     if (currentPage != PageStates.home) {
       buttons.add(_NavButton(
-        icon: Icons.bluetooth_searching_sharp,
+        icon: Icons.keyboard_alt_outlined,
         onPressed: () => bloc.add(HomeEvent()),
       ));
     }
@@ -44,7 +44,7 @@ class ControlPanel extends StatelessWidget {
     // Dashboard
     if (currentPage != PageStates.dashboard) {
       buttons.add(_NavButton(
-        icon: Icons.analytics_outlined,
+        icon: Icons.bar_chart_sharp,
         onPressed: () => bloc.add(DashboardEvent()),
       ));
     }

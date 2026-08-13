@@ -36,67 +36,68 @@ class HomePage extends StatelessWidget {
           appBar: const AppNavigationBar(currentPage: PageStates.home),
           body: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-                child: BlocBuilder<ListBloc, ListState>(
-                  builder: (context, state) {
-
-                    if (_firstTime) {
-                      WidgetsBinding.instance.addPostFrameCallback((_){
-                        context.read<ListBloc>().add(SelectOptionEvent(ListBloc.items[0]),);
-                      });
-                      _firstTime = false;
-                    }
-
-                    return Card(
-                      elevation: 4,
-                      color: Theme.of(
-                        context,
-                      ).cardColor, // ← automatically adjusts
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Select BLE device:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 8),
-                            BlocBuilder<ListBloc, ListState>(
-                              builder: (context, state) {
-                                return DropdownButtonFormField<String>(
-                                  initialValue: state.selectedOption,
-                                  isExpanded: true,
-                                  items: ListBloc.items.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (newValue) {
-                                    if (newValue != null) {
-                                      context.read<ListBloc>().add(SelectOptionEvent(newValue),);
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+              //
+              //   child: BlocBuilder<ListBloc, ListState>(
+              //     builder: (context, state) {
+              //
+              //       if (_firstTime) {
+              //         WidgetsBinding.instance.addPostFrameCallback((_){
+              //           context.read<ListBloc>().add(SelectOptionEvent(ListBloc.items[0]),);
+              //         });
+              //         _firstTime = false;
+              //       }
+              //
+              //       return Card(
+              //         elevation: 4,
+              //         color: Theme.of(
+              //           context,
+              //         ).cardColor, // ← automatically adjusts
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(12),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               const Text(
+              //                 'Select BLE device:',
+              //                 style: TextStyle(fontWeight: FontWeight.bold),
+              //               ),
+              //               const SizedBox(height: 8),
+              //               BlocBuilder<ListBloc, ListState>(
+              //                 builder: (context, state) {
+              //                   return DropdownButtonFormField<String>(
+              //                     initialValue: state.selectedOption,
+              //                     isExpanded: true,
+              //                     items: ListBloc.items.map((String value) {
+              //                       return DropdownMenuItem<String>(
+              //                         value: value,
+              //                         child: Text(
+              //                           value,
+              //                           overflow: TextOverflow.ellipsis,
+              //                           style: TextStyle(fontSize: 12),
+              //                         ),
+              //                       );
+              //                     }).toList(),
+              //                     onChanged: (newValue) {
+              //                       if (newValue != null) {
+              //                         context.read<ListBloc>().add(SelectOptionEvent(newValue),);
+              //                       }
+              //                     },
+              //                   );
+              //                 },
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
 
               Expanded(
 
@@ -168,9 +169,11 @@ class HomePage extends StatelessWidget {
                                     const SizedBox(width: 1),
 
                                     BlinkingColorIcon(
-                                        icon: getIcon(state.measureType??'')??Icons.hourglass_empty,
-                                        blinking: getBlinking(state.state??'')/*true*/,
-                                        size: 28),
+                                      //  bar_chart_sharp
+//                                        icon: getIcon(state.measureType??'')??Icons.hourglass_empty,
+                                        icon: state.isScanning ? Icons.gps_fixed_sharp : Icons.gps_not_fixed_sharp,
+                                        blinking: state.isScanning ? true : false, //getBlinking(state.state??'')/*true*/,
+                                        size: 24),
 
                                     const SizedBox(width: 8),
 
@@ -190,10 +193,6 @@ class HomePage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-
-                                    // Icon(
-                                    //   Icons.commit_sharp,
-                                    //   color: state.isOnline ? Colors.blue : Colors.grey, size: 28,),
 
                                     Expanded(
                                       child: Column(
@@ -246,9 +245,13 @@ class HomePage extends StatelessWidget {
                                   runSpacing: 12,
                                   children: [
 
+                                    // _actionButton(
+                                    //     Icons.play_arrow, 'Start Session', colorStartSession(state),
+                                    //         () => context.read<RemoteBleBloc>().add(StartSession())),
+
                                     _actionButton(
-                                        Icons.play_arrow, 'Start Session', colorStartSession(state),
-                                            () => context.read<RemoteBleBloc>().add(StartSession())),
+                                        Icons.sync_sharp, 'Sync', colorCheckSink(state),
+                                            () => context.read<RemoteBleBloc>().add(Sync())),
 
                                     _actionButton(
                                         Icons.search, 'Start Scan', colorStartScan(state),
@@ -259,12 +262,8 @@ class HomePage extends StatelessWidget {
                                             () => context.read<RemoteBleBloc>().add(FinalScan())),
 
                                     _actionButton(
-                                        Icons.stop_circle, 'Final Session', colorFinalSession(state),
+                                        Icons.stop_circle, 'Stop ESP32-S3', colorFinalSession(state),
                                             () => context.read<RemoteBleBloc>().add(FinalSession())),
-
-                                    _actionButton(
-                                        Icons.sync_sharp, 'Sync', colorCheckSink(state),
-                                            () => context.read<RemoteBleBloc>().add(Sync())),
 
                                   ],
                                 ),
@@ -317,7 +316,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 
   Future<String?> showAppExitDialog(BuildContext context) {
     return showDialog<String>(
@@ -387,23 +385,23 @@ class HomePage extends StatelessWidget {
   }
 
   int index(RemoteBleState state) {
-    int idx = 4;
+    int idx = 4/*4*/;
     if  (!state.isOnline) {
       return idx;
     }
-    if (!state.isSessionStarted && !state.isScanning) {
-      idx = 0;
-    }
+    // if (/*!state.isSessionStarted &&*/ !state.isScanning) {
+    //   idx = 0;
+    // }
+    // else
+    // if (/*!state.isSessionStarted &&*/  state.isScanning) {
+    //   idx = 1;
+    // }
     else
-    if (!state.isSessionStarted &&  state.isScanning) {
-      idx = 1;
-    }
-    else
-    if ( state.isSessionStarted && !state.isScanning) {
+    if ( /*state.isSessionStarted &&*/ !state.isScanning) {
       idx = 2;
     }
     else
-    if ( state.isSessionStarted &&  state.isScanning) {
+    if ( /*state.isSessionStarted &&*/  state.isScanning) {
       idx = 3;
     }
     return idx;
