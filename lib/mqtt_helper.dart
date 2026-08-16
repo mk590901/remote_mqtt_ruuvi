@@ -322,7 +322,7 @@ class MqttHelper {
       return;
     }
 
-    print ("updateData->$jsonString");
+    //print ("updateData->$jsonString");
     final map = jsonDecode(jsonString) as Map<String, dynamic>;
     if (map.containsKey('error')) {
       String? errorMessage = map['error'];
@@ -362,9 +362,9 @@ class MqttHelper {
 
     ServiceAdapter.instance()?.updateAppState(state??'', measureType??'', mv.trim());
 
-    // if (time != null) {
-    //   ServiceAdapter.instance()?.updateTraceInfo(map);
-    // }
+    if (time != null) {
+      ServiceAdapter.instance()?.updateTraceInfo(map);
+    }
 
 
 

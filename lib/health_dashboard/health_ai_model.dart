@@ -4,25 +4,6 @@ import 'package:collection/collection.dart';
 import '../models/trace_db.dart';
 import 'health_thresholds.dart';
 
-// final double maxHr        = 100;
-// final double minHr        = 50;
-// final double minSpO2      = 95;
-// final double minHRVI      = 35;
-// final double minHRVII     = 40;
-// final double stressMaxII  = 65;
-// final double stressMaxI   = 70;
-// final double bsMax        = 160;
-// final double bsMin        = 60;
-// final double minTempI     = 35.5;
-// final double maxTempI     = 37.5;
-// final double minTempII    = 35.0;
-// final double maxTempII    = 37.8;
-//
-// final double alertHr      = 110;
-// final double alertHRV     = 25;
-// final double alertSpO2    = 92;
-// final double alertStress  = 85;
-
 class RawHealthRecord {
   final DateTime timestamp;
   final String parameter;

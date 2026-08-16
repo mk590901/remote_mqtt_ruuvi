@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:async';
+import 'package:intl/intl.dart';
 import '../models/command_model.dart';
 import '../models/discovery_model.dart';
 import '../models/measure_model.dart';
+import '../models/ruuvi_data.dart';
 import '../models/connect_device_model.dart';
 import '../models/disconnect_device_model.dart';
 import '../models/trace.dart';
@@ -207,6 +209,104 @@ class ServiceAdapter {
 
   void updateBleDeviceInfo(String? bleMac, int? rssi, String? time, bool? online) {
     _bleBloc?.add(UpdateBleDevice(bleMac, rssi, time, online));
+  }
+
+  void updateTraceInfo(Map<String,dynamic> map) {
+
+    print ("updateTraceInfo $map");
+
+    RuuviData ruuviData = RuuviData(
+      id:               map["ble_name"],
+      mac:              map["ble_mac"],
+      temperature:      map["temperature"],
+      humidity:         map["humidity"],
+      pressure:         map["pressure"],
+      accelX:           map["accel-x"],
+      accelY:           map["accel-y"],
+      accelZ:           map["accel-z"],
+      batteryVoltage:   map["battery-voltage"],
+      txPower:          map["tx-power"],
+      movementCounter:  map["movement-counter"],
+      sequence:         map["sequence"],
+      rssi:             map["rssi"],
+      lastSeen:         parseCustomDate(map["time"]),
+    );
+
+    RuuviOrientation orientation = RuuviData.detectOrientation(
+      accelX: ruuviData.accelX,
+      accelY: ruuviData.accelY,
+      accelZ: ruuviData.accelZ
+    );
+
+    print ("Orientation: $orientation");
+
+
+    // const RuuviData({
+    //   required this.id,
+    //   required this.mac,
+    //   this.temperature,
+    //   this.humidity,
+    //   this.pressure,
+    //   this.accelX,
+    //   this.accelY,
+    //   this.accelZ,
+    //   this.batteryVoltage,
+    //   this.txPower,
+    //   this.movementCounter,
+    //   this.sequence,
+    //   required this.rssi,
+    //   required this.lastSeen,
+    //   this.orientation = RuuviOrientation.unknown,
+    // });
+
+    //  temperature: 25.315, humidity: 48.417500000000004, pressure: 981.86, accel-x: 0.036, accel-y: -0.052, accel-z: 0.984, battery-voltage: 3.083, tx-power: 4, movement-counter: 223, sequence: 15551, ble_mac: E4:64:E3:37:4D:1B, time: 2026/08/16 13:03:32.440, ble_name: Ruuvi 4D1B, transmitter_type: esp32, transmitter_mac: CC:8D:A2:EC:F6:50, rssi: -53
+    //
+    // String bleName  = map['ble_name'] ??  '';
+    // String bleMac   = map['ble_mac']  ??  '';
+    // String state    = map['state']    ??  '';
+    // bool online     = map['online']   ??  false;
+    //
+    // if (state != 'measuring-result') {
+    //   return;
+    // }
+    //
+    // print ('******* updateTraceInfo... online->$online, _traceBloc is null->[${_traceBloc == null}]');
+    //
+    // List<Parameter> paramsList = [];
+    // map.forEach((key, value) {
+    //   if (key != 'ble_name' && key != 'ble_mac' && key != 'online') {
+    //     paramsList.add(Parameter(name: key, value: '$value'));
+    //   }
+    // });
+    //
+    // Trace trace = Trace( title: '$bleName @ $bleMac', isOnline: online, parameters: paramsList);
+    //
+    // if (_traceBloc == null) {
+    //   traces.add(trace);
+    //   print ('******* #traces->[${traces.length}] *******');
+    // }
+    // else {
+    //   if (traces.isNotEmpty) {
+    //     for (int i = 0; i < traces.length; i++) {
+    //       _traceBloc?.add(AddTrace(traces[i]));
+    //     }
+    //     traces.clear();
+    //   }
+    // }
+    // _traceBloc?.add(AddTrace(trace));
+    //
+    // TraceDb traceDb = TraceDb.fromJson('fake', map);
+    // ServiceAdapter.instance()?.updateIncomingData(traceDb);
+    // _healthBloc?.add(AddRawRecord());
+    //
+    //
+  }
+
+
+  DateTime parseCustomDate(String dateStr) {
+    // DataTime string format:
+    final format = DateFormat('yyyy/MM/dd HH:mm:ss.SSS');
+    return format.parse(dateStr);
   }
 
   void breakEsp32() {
