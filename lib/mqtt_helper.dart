@@ -341,9 +341,9 @@ class MqttHelper {
     bleMac      = map['ble_mac'];
     online      = map['online'];  //  ??
     state       = map['state'];
-    measureType = map['measure'];
-    value       = map['value'];
-    units       = map['units'];
+    measureType = "Temp";//map['measure'];
+    value       = _formatDouble(map["temperature"]);//map['value'];
+    units       = "°C";//map['units'];
 
     String prompt = value == null ? '' : value.isEmpty? '' : measureType??'';
     String mvv   = isMeasureError(value) ? value??'' : "${value??''} ${units??''}";
@@ -369,6 +369,16 @@ class MqttHelper {
 
 
 
+  }
+
+  String _formatDouble(dynamic value, [int fractionDigits = 2]) {
+    if (value is String) {
+      return value;
+    }
+    if (value == null) return '—';
+    final numValue = value as num?;
+    if (numValue == null) return '—';
+    return numValue.toStringAsFixed(fractionDigits);
   }
 
 }

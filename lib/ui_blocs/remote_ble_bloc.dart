@@ -70,7 +70,6 @@ class RemoteBleState {
   final String?           state;
   final String?           measureType;
   final String?           value;
-  //final bool              isSessionStarted;
   final bool              isScanning;
   final bool              isOnline;
 

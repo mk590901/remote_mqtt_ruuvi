@@ -199,18 +199,18 @@ class HomePage extends StatelessWidget {
                                         crossAxisAlignment:
                                         CrossAxisAlignment.end,
                                         children: [
-                                          Text(
-                                            getName(state.measureType??'')??'',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                          // Text(
+                                          //   getName(state.measureType??'')??'',
+                                          //   style: const TextStyle(
+                                          //     fontSize: 14,
+                                          //     fontWeight: FontWeight.bold,
+                                          //   ),
+                                          // ),
                                           //Text("114/86 mmHg"),
                                           Text(
                                             state.value??'',// "114/86 mmHg",
                                             style: const TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 18,
                                               color: Colors.blue,
                                               fontWeight: FontWeight.normal,
                                             ),
