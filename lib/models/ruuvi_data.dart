@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
+import 'ruuvi_sample.dart';
 
 enum RuuviOrientation {
   flatFaceUp,      // лежит верхней стороной вверх
@@ -122,6 +123,16 @@ class RuuviData extends Equatable {
     }
 
     return RuuviOrientation.unknown;
+  }
+
+  RuuviSample ruuviSample() {
+    return RuuviSample(
+      timestamp:    lastSeen,
+      temperature:  temperature??0,
+      humidity:     humidity??0,
+      pressure:     pressure??0,
+      battery:      batteryVoltage??0,
+    );
   }
 
   @override

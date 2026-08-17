@@ -5,9 +5,11 @@ import '../models/command_model.dart';
 import '../models/discovery_model.dart';
 import '../models/measure_model.dart';
 import '../models/ruuvi_data.dart';
+import '../models/ruuvi_sample.dart';
 import '../models/connect_device_model.dart';
 import '../models/disconnect_device_model.dart';
 import '../models/trace.dart';
+import '../models/circular_buffer.dart';
 import '../models/trace_db.dart';
 import '../ui_blocs/app_bloc.dart';
 import '../ui_blocs/mqtt_bloc.dart';
@@ -17,6 +19,10 @@ import '../mqtt_helper.dart';
 import '../health_dashboard/health_ai_model.dart';
 import '../health_dashboard/bloc/health_bloc.dart';
 import '../health_dashboard/bloc/health_event.dart';
+import '../services/ruuvi_analyzer.dart';
+import '../models/ruuvi_analysis.dart';
+
+final int BUFFER_SIZE = 128;
 
 class ServiceAdapter {
   static ServiceAdapter? _instance;
@@ -43,6 +49,8 @@ class ServiceAdapter {
   List<RawHealthRecord> _localRawRecords = [];
   List<TraceDb> _allData = [];
   List<TraceDb> _incomingData = [];
+
+  CircularBuffer<RuuviSample> buffer_ = CircularBuffer<RuuviSample>(BUFFER_SIZE+1);
 
   static void initInstance() {
     _instance ??= ServiceAdapter();
@@ -232,76 +240,25 @@ class ServiceAdapter {
       lastSeen:         parseCustomDate(map["time"]),
     );
 
-    RuuviOrientation orientation = RuuviData.detectOrientation(
-      accelX: ruuviData.accelX,
-      accelY: ruuviData.accelY,
-      accelZ: ruuviData.accelZ
-    );
-
-    print ("Orientation: $orientation");
 
 
-    // const RuuviData({
-    //   required this.id,
-    //   required this.mac,
-    //   this.temperature,
-    //   this.humidity,
-    //   this.pressure,
-    //   this.accelX,
-    //   this.accelY,
-    //   this.accelZ,
-    //   this.batteryVoltage,
-    //   this.txPower,
-    //   this.movementCounter,
-    //   this.sequence,
-    //   required this.rssi,
-    //   required this.lastSeen,
-    //   this.orientation = RuuviOrientation.unknown,
-    // });
+    // RuuviOrientation orientation = RuuviData.detectOrientation(
+    //   accelX: ruuviData.accelX,
+    //   accelY: ruuviData.accelY,
+    //   accelZ: ruuviData.accelZ
+    // );
 
-    //  temperature: 25.315, humidity: 48.417500000000004, pressure: 981.86, accel-x: 0.036, accel-y: -0.052, accel-z: 0.984, battery-voltage: 3.083, tx-power: 4, movement-counter: 223, sequence: 15551, ble_mac: E4:64:E3:37:4D:1B, time: 2026/08/16 13:03:32.440, ble_name: Ruuvi 4D1B, transmitter_type: esp32, transmitter_mac: CC:8D:A2:EC:F6:50, rssi: -53
-    //
-    // String bleName  = map['ble_name'] ??  '';
-    // String bleMac   = map['ble_mac']  ??  '';
-    // String state    = map['state']    ??  '';
-    // bool online     = map['online']   ??  false;
-    //
-    // if (state != 'measuring-result') {
-    //   return;
-    // }
-    //
-    // print ('******* updateTraceInfo... online->$online, _traceBloc is null->[${_traceBloc == null}]');
-    //
-    // List<Parameter> paramsList = [];
-    // map.forEach((key, value) {
-    //   if (key != 'ble_name' && key != 'ble_mac' && key != 'online') {
-    //     paramsList.add(Parameter(name: key, value: '$value'));
-    //   }
-    // });
-    //
-    // Trace trace = Trace( title: '$bleName @ $bleMac', isOnline: online, parameters: paramsList);
-    //
-    // if (_traceBloc == null) {
-    //   traces.add(trace);
-    //   print ('******* #traces->[${traces.length}] *******');
-    // }
-    // else {
-    //   if (traces.isNotEmpty) {
-    //     for (int i = 0; i < traces.length; i++) {
-    //       _traceBloc?.add(AddTrace(traces[i]));
-    //     }
-    //     traces.clear();
-    //   }
-    // }
-    // _traceBloc?.add(AddTrace(trace));
-    //
-    // TraceDb traceDb = TraceDb.fromJson('fake', map);
-    // ServiceAdapter.instance()?.updateIncomingData(traceDb);
-    // _healthBloc?.add(AddRawRecord());
-    //
-    //
+    //print ("Orientation: $orientation");
+    RuuviSample ruuviSample = ruuviData.ruuviSample();
+    buffer_.write(ruuviSample);
+    print ("******* buffer.size: ${buffer_.size()} *******");
+    RuuviAnalyzer analyzer = RuuviAnalyzer();
+    //List<RuuviSample> samples = buffer_.getData();
+    //print ("******* samples.size: ${samples.length} *******");
+    //RuuviAnalysis analysis =analyzer.analyze(samples);
+    int x = 0;
+    int y = x;
   }
-
 
   DateTime parseCustomDate(String dateStr) {
     // DataTime string format:
