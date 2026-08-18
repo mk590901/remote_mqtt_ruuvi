@@ -6,8 +6,10 @@ import 'ui_blocs/theme_cubit.dart';
 import 'ui_blocs/mqtt_bloc.dart';
 import 'ui_blocs/app_bloc.dart';
 import 'ui_blocs/remote_ble_bloc.dart';
-import 'health_dashboard/bloc/health_bloc.dart';
-import 'health_dashboard/bloc/health_event.dart';
+// import 'health_dashboard/bloc/health_bloc.dart';
+// import 'health_dashboard/bloc/health_event.dart';services/ruuvi_b
+import 'services/ruuvi_bloc/ruuvi_bloc.dart';
+import 'services/ruuvi_analyzer.dart';
 import 'pages/main_app_page.dart';
 import 'gui_adapter/service_adapter.dart';
 import 'check_platform.dart';
@@ -52,7 +54,8 @@ class RemoteBleApp extends StatelessWidget {
           BlocProvider(create: (context) => MqttBloc()),
           BlocProvider(create: (context) => RemoteBleBloc()),
           //BlocProvider(create: (context) => TraceBloc()),
-          BlocProvider(create: (context) => HealthBloc()..add(LoadHealthData())),
+          //@BlocProvider(create: (context) => HealthBloc()..add(LoadHealthData())),
+          BlocProvider(create: (context) =>RuuviBloc()),
           //BlocProvider(create: (context) => TraceDbBloc(userService)..add(LoadTraceDb())),
           // BlocProvider(
           //   create: (context) => TraceDbBloc(

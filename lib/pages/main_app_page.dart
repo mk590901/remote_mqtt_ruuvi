@@ -1,7 +1,8 @@
 // main_app_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'health_dashboard_page.dart';
+//import 'health_dashboard_page.dart';
+import 'ruuvi_page.dart';
 import '../ui_blocs/page_bloc.dart';
 import 'home_page.dart';
 import 'help_page.dart';
@@ -23,7 +24,8 @@ class MainAppPage extends StatelessWidget {
           case PageStates.help:
             return const HelpPage();
           case PageStates.dashboard:
-            return const HealthDashboardPage();
+            //return const HealthDashboardPage();
+            return const RuuviPage();
         }
       },
     );
