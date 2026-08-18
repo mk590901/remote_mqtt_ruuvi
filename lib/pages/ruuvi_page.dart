@@ -2,61 +2,119 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../services/ruuvi_bloc/ruuvi_bloc.dart';
-import '../services/ruuvi_bloc/ruuvi_event.dart';
+//import '../services/ruuvi_bloc/ruuvi_event.dart';
 import '../services/ruuvi_bloc/ruuvi_state.dart';
 import '../models/ruuvi_analysis.dart';
 import '../models/ruuvi_data.dart';
+import '../app_navigation_bar.dart';
+import '../ui_blocs/page_bloc.dart';
 
 class RuuviPage extends StatelessWidget {
   const RuuviPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('RuuviTag'),
-        actions: [
-          IconButton(
-            tooltip: 'Clear history',
-            icon: const Icon(Icons.delete_outline),
-            onPressed: () {
-              context.read<RuuviBloc>().add(const ClearHistory());
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<RuuviBloc, RuuviState>(
-        builder: (context, state) {
-          final tags = state.sortedTags;
+    final bloc = context.read<PageBloc>();
+    return BlocBuilder<RuuviBloc, RuuviState>(
+      builder: (context, state) {
+        final tags = state.sortedTags;
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (bool didPop, Object? result) {
+            debugPrint('******* onPopInvoked($didPop) *******');
+            if (didPop) {
+              return;
+            }
+            bloc.add(HomeEvent());
+          },
 
-          return Column(
-            children: [
-              // Analysis panel
-              if (state.analysis != null)
-                _AnalysisPanel(analysis: state.analysis!),
+          child: Scaffold(
+            appBar: const AppNavigationBar(currentPage: PageStates.dashboard),
 
-              // Tags list
-              Expanded(
-                child: tags.isEmpty
-                    ? Center(
-                  child: Text(
-                    'No data',
-                    style: Theme.of(context).textTheme.titleMedium,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Analysis panel
+                if (state.analysis != null)
+                  _AnalysisPanel(analysis: state.analysis!),
+
+                // Tags list
+                Expanded(
+                  child: tags.isEmpty
+                      ? Center(
+                    child: Text(
+                      'No data',
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleMedium,
+                    ),
+                  )
+                      : ListView.builder(
+                    itemCount: tags.length,
+                    itemBuilder: (context, index) {
+                      return _RuuviCard(data: tags[index]);
+                    },
                   ),
-                )
-                    : ListView.builder(
-                  itemCount: tags.length,
-                  itemBuilder: (context, index) {
-                    return _RuuviCard(data: tags[index]);
-                  },
                 ),
-              ),
-            ],
-          );
-        },
-      ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
+
+// @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('RuuviTag'),
+  //       actions: [
+  //         IconButton(
+  //           tooltip: 'Clear history',
+  //           icon: const Icon(Icons.delete_outline),
+  //           onPressed: () {
+  //             context.read<RuuviBloc>().add(const ClearHistory());
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //     body: BlocBuilder<RuuviBloc, RuuviState>(
+  //       builder: (context, state) {
+  //         final tags = state.sortedTags;
+  //
+  //         return Column(
+  //           children: [
+  //             // Analysis panel
+  //             if (state.analysis != null)
+  //               _AnalysisPanel(analysis: state.analysis!),
+  //
+  //             // Tags list
+  //             Expanded(
+  //               child: tags.isEmpty
+  //                   ? Center(
+  //                 child: Text(
+  //                   'No data',
+  //                   style: Theme.of(context).textTheme.titleMedium,
+  //                 ),
+  //               )
+  //                   : ListView.builder(
+  //                 itemCount: tags.length,
+  //                 itemBuilder: (context, index) {
+  //                   return _RuuviCard(data: tags[index]);
+  //                 },
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
+
+
 }
 
 // ─────────────────────────────────────────────────────────────
