@@ -1,4 +1,4 @@
-// lib/bloc/health_bloc.dart
+// lib/ruuvi_bloc/health_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../health_ai_model.dart';
 import '../../gui_adapter/service_adapter.dart';

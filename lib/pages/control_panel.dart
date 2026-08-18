@@ -29,7 +29,7 @@ class ControlPanel extends StatelessWidget {
     // if (currentPage != PageStates.trace) {
     //   buttons.add(_NavButton(
     //     icon: Icons.event_note_outlined,
-    //     onPressed: () => bloc.add(TraceEvent()),
+    //     onPressed: () => ruuvi_bloc.add(TraceEvent()),
     //   ));
     // }
     //
@@ -37,7 +37,7 @@ class ControlPanel extends StatelessWidget {
     // if (currentPage != PageStates.db) {
     //   buttons.add(_NavButton(
     //     icon: Icons.storage,
-    //     onPressed: () => bloc.add(DBEvent()),
+    //     onPressed: () => ruuvi_bloc.add(DBEvent()),
     //   ));
     // }
 

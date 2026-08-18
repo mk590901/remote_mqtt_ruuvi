@@ -1,6 +1,6 @@
 import '../health_ai_model.dart';
 
-// lib/bloc/health_event.dart
+// lib/ruuvi_bloc/health_event.dart
 abstract class HealthEvent {}
 
 class LoadHealthData extends HealthEvent {}

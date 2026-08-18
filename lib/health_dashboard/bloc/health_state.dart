@@ -1,6 +1,6 @@
 import '../health_ai_model.dart';
 
-// lib/bloc/health_state.dart
+// lib/ruuvi_bloc/health_state.dart
 class HealthState {
   final HealthAIModel model;
   final Map<String, dynamic> analysis;
