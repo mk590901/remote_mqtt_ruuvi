@@ -354,11 +354,11 @@ class MqttHelper {
     transmitterMac = map['transmitter_mac'];
     transmitterName = map['transmitter_type'];
 
-    print ('updateData [$transmitterMac,$transmitterName]');
+    //print ('updateData [$transmitterMac,$transmitterName]');
 
     ServiceAdapter.instance()?.updateTransmitterInfo(transmitterName??'', transmitterMac??'');
 
-    print ('updateData.state [$state,$measureType,$mv]');
+    //print ('updateData.state [$state,$measureType,$mv]');
 
     ServiceAdapter.instance()?.updateAppState(state??'', measureType??'', mv.trim());
 

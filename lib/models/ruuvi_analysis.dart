@@ -18,6 +18,11 @@ class MetricTrend {
     this.anomaly = AnomalyLevel.none,
     this.anomalyReason,
   });
+
+  void trace(String prompt) {
+    print ("MetricTrend [$prompt]: $current, $avg1h, $avg6h,$avg24h, $slopePerHour, $anomaly, $anomalyReason");
+  }
+
 }
 
 class RuuviAnalysis {
@@ -36,4 +41,11 @@ class RuuviAnalysis {
     required this.analyzedAt,
     required this.sampleCount,
   });
+
+  void trace() {
+    temperature.trace("temperature");
+    humidity.trace("humidity");
+    pressure.trace("pressure");
+    battery.trace("battery");
+  }
 }

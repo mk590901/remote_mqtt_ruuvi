@@ -10,6 +10,7 @@ import '../models/connect_device_model.dart';
 import '../models/disconnect_device_model.dart';
 import '../models/trace.dart';
 import '../models/circular_buffer.dart';
+import '../models/fixed_buffer.dart';
 import '../models/trace_db.dart';
 import '../ui_blocs/app_bloc.dart';
 import '../ui_blocs/mqtt_bloc.dart';
@@ -50,7 +51,8 @@ class ServiceAdapter {
   List<TraceDb> _allData = [];
   List<TraceDb> _incomingData = [];
 
-  CircularBuffer<RuuviSample> buffer_ = CircularBuffer<RuuviSample>(BUFFER_SIZE+1);
+  //CircularBuffer<RuuviSample> buffer_ = CircularBuffer<RuuviSample>(BUFFER_SIZE+1);
+  FixedBuffer<RuuviSample> buffer_ = FixedBuffer<RuuviSample>(BUFFER_SIZE+1);
 
   static void initInstance() {
     _instance ??= ServiceAdapter();
@@ -250,12 +252,13 @@ class ServiceAdapter {
 
     //print ("Orientation: $orientation");
     RuuviSample ruuviSample = ruuviData.ruuviSample();
-    buffer_.write(ruuviSample);
-    print ("******* buffer.size: ${buffer_.size()} *******");
+    buffer_.put(ruuviSample);
+    print ("******* buffer.size: ${buffer_.length} *******");
     RuuviAnalyzer analyzer = RuuviAnalyzer();
-    //List<RuuviSample> samples = buffer_.getData();
-    //print ("******* samples.size: ${samples.length} *******");
-    //RuuviAnalysis analysis =analyzer.analyze(samples);
+    List<RuuviSample> samples = buffer_.getList();
+    print ("******* samples.size: ${samples.length} *******");
+    RuuviAnalysis analysis =analyzer.analyze(samples);
+    analysis.trace();
     int x = 0;
     int y = x;
   }
