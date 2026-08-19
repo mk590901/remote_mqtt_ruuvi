@@ -169,6 +169,59 @@ class _AnalysisPanel extends StatelessWidget {
             children: [
               Icon(Icons.circle, size: 10, color: color),
               const SizedBox(width: 6),
+              // Name — left
+              Expanded(
+                child: Text(title),
+              ),
+              // Value + unit (+ slope) — right
+              Text(
+                '${t.current.toStringAsFixed(2)} $unit'
+                    '${t.slopePerHour != null ? '  (${t.slopePerHour! >= 0 ? '+' : ''}${t.slopePerHour!.toStringAsFixed(2)}/h)' : ''}',
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          if (t.anomalyReason != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 2),
+              child: Text(
+                t.anomalyReason!,
+                style: TextStyle(color: color, fontSize: 12),
+              ),
+            ),
+          if (t.avg1h != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 2),
+              child: Text(
+                'avg 1h: ${t.avg1h!.toStringAsFixed(2)}'
+                    '  ·  6h: ${t.avg6h?.toStringAsFixed(2) ?? '—'}'
+                    '  ·  24h: ${t.avg24h?.toStringAsFixed(2) ?? '—'}',
+                style: TextStyle(color: Colors.grey[600], fontSize: 11),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+
+  /*
+  Widget _metricRow(String title, MetricTrend t, String unit) {
+    final color = switch (t.anomaly) {
+      AnomalyLevel.strong => Colors.red,
+      AnomalyLevel.mild => Colors.orange,
+      AnomalyLevel.none => Colors.green,
+    };
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.circle, size: 10, color: color),
+              const SizedBox(width: 6),
               Text('$title: ${t.current.toStringAsFixed(2)} $unit'),
               if (t.slopePerHour != null) ...[
                 const SizedBox(width: 8),
@@ -201,6 +254,8 @@ class _AnalysisPanel extends StatelessWidget {
       ),
     );
   }
+  */
+
 }
 
 // ─────────────────────────────────────────────────────────────
