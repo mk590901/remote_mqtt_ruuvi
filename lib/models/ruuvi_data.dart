@@ -13,22 +13,41 @@ enum RuuviOrientation {
 }
 
 extension RuuviOrientationX on RuuviOrientation {
+  // String get label {
+  //   switch (this) {
+  //     case RuuviOrientation.flatFaceUp:
+  //       return 'Лежит (верх вверх)';
+  //     case RuuviOrientation.flatFaceDown:
+  //       return 'Лежит перевёрнутый';
+  //     case RuuviOrientation.standingUp:
+  //       return 'Стоит вертикально';
+  //     case RuuviOrientation.standingDown:
+  //       return 'Стоит вверх ногами';
+  //     case RuuviOrientation.onLeftSide:
+  //       return 'На левом боку';
+  //     case RuuviOrientation.onRightSide:
+  //       return 'На правом боку';
+  //     case RuuviOrientation.unknown:
+  //       return 'В движении / неизвестно';
+  //   }
+  //}
+
   String get label {
     switch (this) {
       case RuuviOrientation.flatFaceUp:
-        return 'Лежит (верх вверх)';
+        return 'Flat (face up)';
       case RuuviOrientation.flatFaceDown:
-        return 'Лежит перевёрнутый';
+        return 'Flat (face down)';
       case RuuviOrientation.standingUp:
-        return 'Стоит вертикально';
+        return 'Standing upright';
       case RuuviOrientation.standingDown:
-        return 'Стоит вверх ногами';
+        return 'Standing upside down';
       case RuuviOrientation.onLeftSide:
-        return 'На левом боку';
+        return 'On left side';
       case RuuviOrientation.onRightSide:
-        return 'На правом боку';
+        return 'On right side';
       case RuuviOrientation.unknown:
-        return 'В движении / неизвестно';
+        return 'Moving / unknown';
     }
   }
 
