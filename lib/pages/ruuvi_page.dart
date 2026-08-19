@@ -276,6 +276,105 @@ class _RuuviCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // MAC + orientation
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    data.mac,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Icon(
+                  data.orientation.icon,
+                  size: 18,
+                  color: Colors.teal,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  data.orientation.label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.teal.shade700,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
+            _param('Temperature', data.temperature, '°C', digits: 2),
+            _param('Humidity', data.humidity, '%', digits: 2),
+            _param('Pressure', data.pressure, 'hPa', digits: 1),
+            _param(
+              'Battery',
+              data.batteryVoltage,
+              'V',
+              digits: 3,
+              trailing: data.txPower != null ? '  ·  TX ${data.txPower} dBm' : null,
+            ),
+            _paramRow(
+              'Accel',
+              'X=${data.accelX?.toStringAsFixed(3) ?? '—'}  '
+                  'Y=${data.accelY?.toStringAsFixed(3) ?? '—'}  '
+                  'Z=${data.accelZ?.toStringAsFixed(3) ?? '—'} g',
+            ),
+            _paramRow(
+              'Movement',
+              '${data.movementCounter ?? '—'}'
+                  '  ·  Seq: ${data.sequence ?? '—'}'
+                  '  ·  RSSI: ${data.rssi} dBm',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _param(
+      String title,
+      double? value,
+      String unit, {
+        int digits = 2,
+        String? trailing,
+      }) {
+    final text = value != null
+        ? '${value.toStringAsFixed(digits)} $unit${trailing ?? ''}'
+        : '—';
+    return _paramRow(title, text);
+  }
+
+  Widget _paramRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          Expanded(child: Text(title)),
+          Text(value, textAlign: TextAlign.right),
+        ],
+      ),
+    );
+  }
+}
+
+/*
+class _RuuviCard extends StatelessWidget {
+  final RuuviData data;
+
+  const _RuuviCard({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Row(
               children: [
                 Expanded(
@@ -334,3 +433,4 @@ class _RuuviCard extends StatelessWidget {
     );
   }
 }
+*/
