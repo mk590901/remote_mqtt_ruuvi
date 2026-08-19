@@ -25,7 +25,7 @@ import '../services/ruuvi_bloc/ruuvi_event.dart';
 import '../services/ruuvi_analyzer.dart';
 import '../models/ruuvi_analysis.dart';
 
-final int BUFFER_SIZE = 256;
+final int BUFFER_SIZE = 512;
 
 class ServiceAdapter {
   static ServiceAdapter? _instance;
@@ -283,8 +283,8 @@ class ServiceAdapter {
     RuuviAnalyzer analyzer = RuuviAnalyzer();
     List<RuuviSample> samples = buffer_.getList();
     print ("******* samples.size: ${samples.length} *******");
-    RuuviAnalysis analysis = analyzer.analyze(samples);
-    analysis.trace();
+    //RuuviAnalysis analysis = analyzer.analyze(samples);
+    //analysis.trace();
 
     _ruuviBloc?.add(RuuviDataReceived(ruuviData));
 
