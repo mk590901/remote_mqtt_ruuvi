@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:async';
+//import 'dart:async';
 import 'package:intl/intl.dart';
 import '../models/command_model.dart';
 import '../models/discovery_model.dart';
@@ -9,7 +9,7 @@ import '../models/ruuvi_sample.dart';
 import '../models/connect_device_model.dart';
 import '../models/disconnect_device_model.dart';
 import '../models/trace.dart';
-import '../models/circular_buffer.dart';
+//import '../models/circular_buffer.dart';
 import '../models/fixed_buffer.dart';
 import '../models/trace_db.dart';
 import '../ui_blocs/app_bloc.dart';
@@ -19,11 +19,13 @@ import '../ui_blocs/list_bloc.dart';
 import '../mqtt_helper.dart';
 import '../health_dashboard/health_ai_model.dart';
 import '../health_dashboard/bloc/health_bloc.dart';
-import '../health_dashboard/bloc/health_event.dart';
+//import '../health_dashboard/bloc/health_event.dart';
+import '../services/ruuvi_bloc/ruuvi_bloc.dart';
+import '../services/ruuvi_bloc/ruuvi_event.dart';
 import '../services/ruuvi_analyzer.dart';
 import '../models/ruuvi_analysis.dart';
 
-final int BUFFER_SIZE = 128;
+final int BUFFER_SIZE = 256;
 
 class ServiceAdapter {
   static ServiceAdapter? _instance;
@@ -34,6 +36,7 @@ class ServiceAdapter {
   late MqttBloc?      _mqttBloc;
   late ListBloc?      _listBloc;
   late RemoteBleBloc? _bleBloc;
+  late RuuviBloc?     _ruuviBloc = null;
   late HealthBloc?    _healthBloc = null;
   late String         _deviceName = '';
   late MqttHelper?    _mqtt_helper;
@@ -52,7 +55,7 @@ class ServiceAdapter {
   List<TraceDb> _incomingData = [];
 
   //CircularBuffer<RuuviSample> buffer_ = CircularBuffer<RuuviSample>(BUFFER_SIZE+1);
-  FixedBuffer<RuuviSample> buffer_ = FixedBuffer<RuuviSample>(BUFFER_SIZE+1);
+  FixedBuffer<RuuviSample> buffer_ = FixedBuffer<RuuviSample>(BUFFER_SIZE);
 
   static void initInstance() {
     _instance ??= ServiceAdapter();
@@ -120,6 +123,10 @@ class ServiceAdapter {
 
   void setListBloc(ListBloc? listBloc) {
     _listBloc = listBloc;
+  }
+
+  void setRuuviBloc(RuuviBloc? ruuviBloc) {
+    _ruuviBloc = ruuviBloc;
   }
 
   void setBleBloc(RemoteBleBloc? bleBloc) {
@@ -225,21 +232,40 @@ class ServiceAdapter {
 
     print ("updateTraceInfo $map");
 
+    // double? ax =  map["accel-x"]??0;
+    // double? ay =  map["accel-y"]??0;
+    // double? az =  map["accel-z"]??0;
+    //
+    // double? accelX = (ax == -32768) ? null : ax! / 1000.0;
+    // double? accelY = (ay == -32768) ? null : ay! / 1000.0;
+    // double? accelZ = (az == -32768) ? null : az! / 1000.0;
+
+    double? accelX = map["accel-x"];
+    double? accelY = map["accel-y"];
+    double? accelZ = map["accel-z"];
+
+    RuuviOrientation orientation = RuuviData.detectOrientation(
+      accelX: accelX,
+      accelY: accelY,
+      accelZ: accelZ,
+    );
+
     RuuviData ruuviData = RuuviData(
-      id:               map["ble_name"],
+      id:               map["ble_mac"], //  Ble_name
       mac:              map["ble_mac"],
       temperature:      map["temperature"],
       humidity:         map["humidity"],
       pressure:         map["pressure"],
-      accelX:           map["accel-x"],
-      accelY:           map["accel-y"],
-      accelZ:           map["accel-z"],
+      accelX:           accelX, //map["accel-x"],
+      accelY:           accelY, //map["accel-y"],
+      accelZ:           accelZ, //map["accel-z"],
       batteryVoltage:   map["battery-voltage"],
       txPower:          map["tx-power"],
       movementCounter:  map["movement-counter"],
       sequence:         map["sequence"],
       rssi:             map["rssi"],
       lastSeen:         parseCustomDate(map["time"]),
+      orientation:      orientation,
     );
 
 
@@ -257,10 +283,17 @@ class ServiceAdapter {
     RuuviAnalyzer analyzer = RuuviAnalyzer();
     List<RuuviSample> samples = buffer_.getList();
     print ("******* samples.size: ${samples.length} *******");
-    RuuviAnalysis analysis =analyzer.analyze(samples);
+    RuuviAnalysis analysis = analyzer.analyze(samples);
     analysis.trace();
+
+    _ruuviBloc?.add(RuuviDataReceived(ruuviData));
+
     int x = 0;
     int y = x;
+  }
+
+  List<RuuviSample> getSamples() {
+    return buffer_.getList();
   }
 
   DateTime parseCustomDate(String dateStr) {

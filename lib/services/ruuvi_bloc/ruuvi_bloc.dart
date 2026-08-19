@@ -1,14 +1,11 @@
-import 'dart:async';
-import 'dart:typed_data';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../ruuvi_thresholds.dart';
 import '../../models/ruuvi_data.dart';
 import '../../models/ruuvi_sample.dart';
 import '../ruuvi_analyzer.dart';
 import 'ruuvi_event.dart';
 import 'ruuvi_state.dart';
+import '../../gui_adapter/service_adapter.dart';
 
 class RuuviBloc extends Bloc<RuuviEvent, RuuviState> {
   final RuuviAnalyzer _analyzer;
@@ -16,6 +13,7 @@ class RuuviBloc extends Bloc<RuuviEvent, RuuviState> {
   RuuviBloc({RuuviAnalyzer? analyzer})
       : _analyzer = analyzer ?? RuuviAnalyzer(),
         super(const RuuviState()) {
+    ServiceAdapter.instance()?.setRuuviBloc(this);
     on<RuuviDataReceived>(_onDataReceived);
     on<ClearHistory>(_onClearHistory);
   }
@@ -36,15 +34,16 @@ class RuuviBloc extends Bloc<RuuviEvent, RuuviState> {
         data.humidity != null &&
         data.pressure != null &&
         data.batteryVoltage != null) {
-      final sample = RuuviSample(
-        timestamp: data.lastSeen,
-        temperature: data.temperature!,
-        humidity: data.humidity!,
-        pressure: data.pressure!,
-        battery: data.batteryVoltage!,
-      );
+      // final sample = RuuviSample(
+      //   timestamp: data.lastSeen,
+      //   temperature: data.temperature!,
+      //   humidity: data.humidity!,
+      //   pressure: data.pressure!,
+      //   battery: data.batteryVoltage!,
+      // );
 
-      history = List<RuuviSample>.from(history)..add(sample);
+      //history = List<RuuviSample>.from(history)..add(sample);
+      history = ServiceAdapter.instance()?.getSamples()??[];
 
       if (history.length > RuuviThresholds.maxSamples) {
         history = history.sublist(
@@ -66,6 +65,7 @@ class RuuviBloc extends Bloc<RuuviEvent, RuuviState> {
       history: history,
       analysis: analysis,
     ));
+
   }
 
   void _onClearHistory(
