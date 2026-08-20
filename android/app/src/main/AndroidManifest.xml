@@ -6,7 +6,7 @@
     <application
         android:label="ruuvi_ble_mqtt"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/temperature">
         <activity
             android:name=".MainActivity"
             android:exported="true"
