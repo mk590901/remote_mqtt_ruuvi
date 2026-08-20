@@ -226,7 +226,7 @@ class _RuuviCard extends StatelessWidget {
               trailing: data.txPower != null ? '/${data.txPower} dBm' : null,
             ),
             _paramRow(
-              'Accel',
+              'Accelerometer',
               'X:${data.accelX?.toStringAsFixed(3) ?? '—'}  '
                   'Y:${data.accelY?.toStringAsFixed(3) ?? '—'}  '
                   'Z:${data.accelZ?.toStringAsFixed(3) ?? '—'} g',
