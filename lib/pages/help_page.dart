@@ -53,6 +53,17 @@ class HelpPage extends StatelessWidget {
                 const SizedBox(height: 8,),
                 ...parts.map((part) => Text(part, style: const TextStyle(fontSize: 12))),
 
+                const SizedBox(height: 24,),
+                SizedBox(
+                  height: 128,
+                  child: Image.asset(
+                    "assets/images/ruuvi_tag.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 32,),
+                Text('A mobile frontend app for an embedded app on Toit,\nrunning  on  an  ESP32-S3  μ-controller  and reading\nthe   main  parameters  of   the  Ruuvi 4D1B  sensor.\n          The connection bridge is the MQTT layer.',
+                    style: TextStyle(fontSize: 12)),
               ],
             ),
           ),
