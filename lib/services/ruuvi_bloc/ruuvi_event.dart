@@ -1,5 +1,3 @@
-// lib/bloc/ruuvi_event.dart
-
 import 'package:equatable/equatable.dart';
 
 import '../../models/ruuvi_data.dart';

@@ -1,7 +1,4 @@
-// lib/bloc/ruuvi_state.dart
-
 import 'package:equatable/equatable.dart';
-
 import '../../models/ruuvi_analysis.dart';
 import '../../models/ruuvi_data.dart';
 import '../../models/ruuvi_sample.dart';

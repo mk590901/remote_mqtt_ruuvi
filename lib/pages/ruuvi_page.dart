@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../services/ruuvi_bloc/ruuvi_bloc.dart';
 import '../services/ruuvi_bloc/ruuvi_state.dart';
 import '../models/ruuvi_analysis.dart';

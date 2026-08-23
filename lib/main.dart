@@ -53,21 +53,8 @@ class RemoteBleApp extends StatelessWidget {
           BlocProvider(create: (context) => PageBloc()),
           BlocProvider(create: (context) => MqttBloc()),
           BlocProvider(create: (context) => RemoteBleBloc()),
-          //BlocProvider(create: (context) => TraceBloc()),
-          //@BlocProvider(create: (context) => HealthBloc()..add(LoadHealthData())),
           BlocProvider(create: (context) =>RuuviBloc()),
-          //BlocProvider(create: (context) => TraceDbBloc(userService)..add(LoadTraceDb())),
-          // BlocProvider(
-          //   create: (context) => TraceDbBloc(
-          //     TraceRestService(
-          //       baseUrl: 'https://auth-2b7d3-default-rtdb.firebaseio.com',
-          //       secret: 'SApU4FSjuoIdx9M5uUrdqWMndbASnTWWpClHs61a',
-          //     ),
-          //   ),
-          // ),
-          //BlocProvider(create: (_) => TraceBloc()..add(LoadTraces())),
         ],
-        //child: const MainAppPage(),
         child: BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (context, themeMode) {
             return MaterialApp(

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../ruuvi_thresholds.dart';
 import '../../models/ruuvi_data.dart';
-import '../../models/ruuvi_sample.dart';
 import '../ruuvi_analyzer.dart';
 import 'ruuvi_event.dart';
 import 'ruuvi_state.dart';
