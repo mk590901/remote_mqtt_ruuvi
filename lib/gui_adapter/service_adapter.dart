@@ -228,12 +228,6 @@ class ServiceAdapter {
     return format.parse(dateStr);
   }
 
-  void breakEsp32() {
-    final Command command = Command(command: "break", data: "");
-    String jsonString = jsonEncode(command.toJson());
-    //@FlutterForegroundTask.sendData({'command': 'break', 'data': jsonString});
-  }
-
   void sendDiscoveryRequest(String request) {
     final DiscoveryDeviceModel commandRequest = DiscoveryDeviceModel(request: request);
     String jsonString = jsonEncode(commandRequest.toJson());
@@ -252,33 +246,10 @@ class ServiceAdapter {
     print ('sendDisconnectRequest->$jsonString');
   }
 
-  void sendEncryptedRequest(String request) {
-
-    // RSAPublicKey publicKey = _server.publicKey;
-    // print ("sendEncryptedRequest.publicKey->[${publicKey.toString()}]");
-    //
-    // XorClient xorClient = XorClient();
-    // xorClient.setKey(publicKey);
-    // XorPacket packet = xorClient.encrypt(_server.id, request);
-    // print ("packet->\n${packet.toJsonString()}");
-    // FlutterForegroundTask.sendData({'command': 'request', 'data': packet.toJsonString()});
-
-    final DiscoveryDeviceModel commandRequest = DiscoveryDeviceModel(request: request);
-    String jsonString = jsonEncode(commandRequest.toJson());
-    print ('sendRequest->$jsonString');
-    //@FlutterForegroundTask.sendData({'command': 'request', 'data': jsonString});
-
-  }
-
   void executeCommand(String jsonString) {
     Command command = Command.fromJsonString(jsonString);
     print ('executeCommand->[${command.command}]');
   }
-
-  // void updateWeather(String jsonString) {
-  //   print ('updateWeather->[$jsonString]');
-  //   //showJson(jsonString);
-  // }
 
   void forceBleDeviceSelection(String? deviceName) {
     if (deviceName != null) {
@@ -319,45 +290,6 @@ class ServiceAdapter {
   String platform() {
     return _platform;
   }
-
-
-  void updatePong(String jsonString) {
-    print ('updatePong->[$jsonString]');
-    //@FlutterForegroundTask.sendData({'command': 'pong', 'data': jsonString});
-  }
-
-  // void updatePacket(String jsonString) {
-  //   print ('updatePacket->[$jsonString]');
-  //   RSAPrivateKey privateKey = _server.clientPrivateKey;
-  //   XorServer xorServer = XorServer();
-  //   xorServer.setKey(privateKey);
-  //   XorPacket packet = XorPacket.fromJsonString(jsonString);
-  //   String? restoreToJson = xorServer.decrypt(packet);
-  //   print ("restoreTJson->\n[$restoreToJson]");
-  //   showJson(restoreToJson?? '');
-  // }
-
-  // void updatePublicKey(String jsonString) {
-  //   RSAPublicKey publicKey = RSAPublicKey.fromJsonString(jsonString);
-  //   print ('updatePublicKey->${publicKey.toString()}');
-  //   _server = Server(_deviceName, publicKey); //  Server was created
-  //   _server.createKeys();
-  //   String jsonPublicKey = _server.responsePublicKey();
-  //   print ('publicKey to server->$jsonPublicKey');
-  //   // Create packet for send public key to server
-  //   FlutterForegroundTask.sendData({'command': 'publicKey', 'data': jsonPublicKey});
-  // }
-
-  // void showJson(final String jsonString) {
-  //   try {
-  //     final Map<String,dynamic> map = jsonDecode(jsonString);
-  //     map.forEach((key, value) {
-  //       _listBloc?.add(AddItemEvent("$key : $value"));
-  //     });
-  //   }
-  //   catch(e) {
-  //   }
-  // }
 
   bool isMQTTOk() {
     bool connected = _mqtt_helper?.isConnected()?? false;
