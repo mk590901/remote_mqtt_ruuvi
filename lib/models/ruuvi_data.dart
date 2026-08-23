@@ -3,35 +3,16 @@ import 'package:equatable/equatable.dart';
 import 'ruuvi_sample.dart';
 
 enum RuuviOrientation {
-  flatFaceUp,      // лежит верхней стороной вверх
-  flatFaceDown,    // лежит перевёрнутый
-  standingUp,      // стоит вертикально
-  standingDown,    // стоит вверх ногами
-  onLeftSide,      // на левом боку
-  onRightSide,     // на правом боку
-  unknown,         // в движении / неопределённо
+  flatFaceUp,      // lies upside down
+  flatFaceDown,    // lies upside down
+  standingUp,      // stands vertically
+  standingDown,    // stands upside down
+  onLeftSide,      // on the left side
+  onRightSide,     // on the right side
+  unknown,         // in motion / indefinitely
 }
 
 extension RuuviOrientationX on RuuviOrientation {
-  // String get label {
-  //   switch (this) {
-  //     case RuuviOrientation.flatFaceUp:
-  //       return 'Лежит (верх вверх)';
-  //     case RuuviOrientation.flatFaceDown:
-  //       return 'Лежит перевёрнутый';
-  //     case RuuviOrientation.standingUp:
-  //       return 'Стоит вертикально';
-  //     case RuuviOrientation.standingDown:
-  //       return 'Стоит вверх ногами';
-  //     case RuuviOrientation.onLeftSide:
-  //       return 'На левом боку';
-  //     case RuuviOrientation.onRightSide:
-  //       return 'На правом боку';
-  //     case RuuviOrientation.unknown:
-  //       return 'В движении / неизвестно';
-  //   }
-  //}
-
   String get label {
     switch (this) {
       case RuuviOrientation.flatFaceUp:
@@ -105,7 +86,7 @@ class RuuviData extends Equatable {
     this.orientation = RuuviOrientation.unknown,
   });
 
-  /// Вычисляет ориентацию по акселерометру
+  /// Calculates orientation using the accelerometer
   static RuuviOrientation detectOrientation({
     required double? accelX,
     required double? accelY,

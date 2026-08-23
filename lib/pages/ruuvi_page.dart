@@ -242,6 +242,11 @@ class _RuuviCard extends StatelessWidget {
               'RSSI',
                   '${data.rssi} dBm',
             ),
+            _paramRow(
+              'Last Update Time',
+              '${data.lastSeen}',
+            ),
+
           ],
         ),
       ),
