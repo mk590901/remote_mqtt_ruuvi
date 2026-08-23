@@ -23,7 +23,7 @@ class SetError  extends RemoteBleEvent {
 class StartSession  extends RemoteBleEvent {}
 class FinalSession  extends RemoteBleEvent {}
 class ClearError    extends RemoteBleEvent {}
-class Sync     extends RemoteBleEvent {}
+class Sync          extends RemoteBleEvent {}
 
 class ConfirmStartScan    extends RemoteBleEvent {}
 class ConfirmFinalScan    extends RemoteBleEvent {}

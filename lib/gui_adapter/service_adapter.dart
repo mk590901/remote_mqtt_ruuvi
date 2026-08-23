@@ -147,6 +147,7 @@ class ServiceAdapter {
 
   void mqttSubscribe() {
     _mqttBloc?.add(MqttEvent.subscribe);
+    _bleBloc?.add(Sync());
   }
 
   void mqttUnsubscribe() {

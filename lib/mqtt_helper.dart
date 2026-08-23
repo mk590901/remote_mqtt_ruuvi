@@ -341,8 +341,8 @@ class MqttHelper {
     bleMac      = map['ble_mac'];
     online      = map['online'];  //  ??
     state       = map['state'];
-    measureType = "Temp";//map['measure'];
-    value       = _formatDouble(map["temperature"]);//map['value'];
+    measureType = "Temp";
+    value       = _formatDouble(map["temperature"]);
     units       = "°C";//map['units'];
 
     String prompt = value == null ? '' : value.isEmpty? '' : measureType??'';
@@ -354,11 +354,7 @@ class MqttHelper {
     transmitterMac = map['transmitter_mac'];
     transmitterName = map['transmitter_type'];
 
-    //print ('updateData [$transmitterMac,$transmitterName]');
-
     ServiceAdapter.instance()?.updateTransmitterInfo(transmitterName??'', transmitterMac??'');
-
-    //print ('updateData.state [$state,$measureType,$mv]');
 
     ServiceAdapter.instance()?.updateAppState(state??'', measureType??'', mv.trim());
 

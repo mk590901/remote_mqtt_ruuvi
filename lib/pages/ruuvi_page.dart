@@ -223,19 +223,17 @@ class _RuuviCard extends StatelessWidget {
               data.batteryVoltage,
               'V',
               digits: 3,
-              trailing: data.txPower != null ? '/${data.txPower} dBm' : null,
+              trailing: data.txPower != null ? ' / ${data.txPower} dBm' : null,
             ),
             _paramRow(
-              'Accelerometer',
-              'X:${data.accelX?.toStringAsFixed(3) ?? '—'}  '
-                  'Y:${data.accelY?.toStringAsFixed(3) ?? '—'}  '
-                  'Z:${data.accelZ?.toStringAsFixed(3) ?? '—'} g',
+              'Acceleration X/Y/Z',
+              '${data.accelX?.toStringAsFixed(3) ?? '—'} / '
+                    '${data.accelY?.toStringAsFixed(3) ?? '—'} / '
+                    '${data.accelZ?.toStringAsFixed(3) ?? '—'} g',
             ),
             _paramRow(
               'Movement Counter',
               '${data.movementCounter ?? '—'}'
-                  //'  ·  Seq: ${data.sequence ?? '—'}'
-                  //'  ·  RSSI: ${data.rssi} dBm',
             ),
             _paramRow(
               'Sequence',
