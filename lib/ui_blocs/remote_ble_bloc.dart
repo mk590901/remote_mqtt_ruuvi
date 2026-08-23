@@ -2,7 +2,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import '../gui_adapter/service_adapter.dart';
-import 'list_bloc.dart';
 
 // Events
 abstract class RemoteBleEvent {}

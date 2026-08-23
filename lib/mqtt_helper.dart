@@ -329,10 +329,6 @@ class MqttHelper {
       ServiceAdapter.instance()?.setError(errorMessage??'?');
       String? bleName = map['ble_name'];
       ServiceAdapter.instance()?.setBleDevice(bleName??'?');
-      if (bleName != ServiceAdapter.instance()?.getDeviceName()) {
-        print ("Invalid selection [$bleName][${ServiceAdapter.instance()?.getDeviceName()}]");
-        ServiceAdapter.instance()?.forceBleDeviceSelection(bleName);
-      }
       return;
     }
 

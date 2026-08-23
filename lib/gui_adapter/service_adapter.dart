@@ -10,7 +10,6 @@ import '../models/fixed_buffer.dart';
 import '../ui_blocs/app_bloc.dart';
 import '../ui_blocs/mqtt_bloc.dart';
 import '../ui_blocs/remote_ble_bloc.dart';
-import '../ui_blocs/list_bloc.dart';
 import '../mqtt_helper.dart';
 import '../services/ruuvi_bloc/ruuvi_bloc.dart';
 import '../services/ruuvi_bloc/ruuvi_event.dart';
@@ -22,7 +21,6 @@ class ServiceAdapter {
 
   late AppBloc?       _appBloc;
   late MqttBloc?      _mqttBloc;
-  late ListBloc?      _listBloc;
   late RemoteBleBloc? _bleBloc;
   late RuuviBloc?     _ruuviBloc = null;
   late String         _deviceName = '';
@@ -69,10 +67,6 @@ class ServiceAdapter {
 
   void setMQTTBloc(MqttBloc? mqttBloc) {
     _mqttBloc = mqttBloc;
-  }
-
-  void setListBloc(ListBloc? listBloc) {
-    _listBloc = listBloc;
   }
 
   void setRuuviBloc(RuuviBloc? ruuviBloc) {
@@ -249,12 +243,6 @@ class ServiceAdapter {
   void executeCommand(String jsonString) {
     Command command = Command.fromJsonString(jsonString);
     print ('executeCommand->[${command.command}]');
-  }
-
-  void forceBleDeviceSelection(String? deviceName) {
-    if (deviceName != null) {
-      _listBloc?.add(SelectOptionEvent(deviceName));
-    }
   }
 
   void startScan() {
