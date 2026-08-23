@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import '../models/command_model.dart';
 import '../models/discovery_model.dart';
-import '../models/measure_model.dart';
 import '../models/ruuvi_data.dart';
 import '../models/ruuvi_sample.dart';
 import '../models/connect_device_model.dart';
@@ -251,13 +250,6 @@ class ServiceAdapter {
     final DisconnectDeviceModel commandRequest = DisconnectDeviceModel(id: deviceId);
     String jsonString = jsonEncode(commandRequest.toJson());
     print ('sendDisconnectRequest->$jsonString');
-  }
-
-  void sendMeasureRequest(String deviceId, String measureType) {
-    final MeasureModel commandRequest = MeasureModel(id: deviceId, measureType: measureType);
-    String jsonString = jsonEncode(commandRequest.toJson());
-    print ('sendMeasureRequest->$jsonString');
-    //@FlutterForegroundTask.sendData({'command': 'request', 'data': jsonString});
   }
 
   void sendEncryptedRequest(String request) {
