@@ -39,7 +39,7 @@ The buttons correspond to the previously described operations: start/final scan,
 
 > Info Panel
 
-A page consisting of two parts: analytics at the top, and at the bottom
+A page consisting of two parts: at the top - analytics and statistics, at the bottom - current values ​​of sensor's parameters
 
 > About
 
