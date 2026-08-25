@@ -1,5 +1,7 @@
 # Ruuvi-Remote-MQTT-App
 
+<img width="1204" height="1600" alt="ruuvi" src="https://github.com/user-attachments/assets/6f41619c-1e7b-45a1-83ef-a527a54c5549" />
+
 Below is a description of a __mobile app__ in __Flutter__ displays information from the __Ruuvi Tag__ sensor, transmitted by a built-in app running on an __ESP32-S3__.
 
 ## Background
