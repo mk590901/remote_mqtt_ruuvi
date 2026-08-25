@@ -16,7 +16,7 @@ And I found such an alternative without much difficulty. It's a temperature sens
 
 ## Application Architecture
 
-The frontend is a simple app receives information from the embedded application via __MQTT__ in __JSON__ format, displays it on the dashboard, and performs basic statistical processing of the data. More on this below.
+The frontend is a simple app receives information from the embedded application via __MQTT__ in __JSON__ format, displays it on the information panel, and performs basic statistical processing of the data. More on this below.
 
 In addition to the information panel, there is a dashboard for the embedded application: sensor scanning can be started, paused, resumed, or stopped completely by stopping the embedded app.
 
