@@ -49,11 +49,11 @@ No comments
  <table>
   <tr>
     <td align="center">
-      <video src="https://github.com/user-attachments/assets/a6e709f8-ca04-44e3-b17f-b8be03b916eb" width="350"><br>
+      <img src="https://github.com/user-attachments/assets/a6e709f8-ca04-44e3-b17f-b8be03b916eb" width="350"><br>
       <b>Dashboard</b>
     </td>
     <td align="center">
-      <video src="https://github.com/user-attachments/assets/352b42dc-967e-46f2-aeff-7221942593b6" width="350"><br>
+      <img src="https://github.com/user-attachments/assets/352b42dc-967e-46f2-aeff-7221942593b6" width="350"><br>
       <b>Information panel</b>
     </td>
     <td align="center">
