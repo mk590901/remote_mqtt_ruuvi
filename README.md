@@ -35,7 +35,7 @@ The RuuviAnalyzer.analyze method is called every ~20 seconds. For each parameter
 
 > Dashboard
 
-The buttons correspond to the previously described operations: start/final scan, stop app, and sync. Last determine the current state of the embedded application.
+The buttons correspond to the previously described operations: __start scan__ / __final scan__, __stop ESP32__ app, and __sync__. Last allows determine the current state of the embedded application.
 
 > Info Panel
 
