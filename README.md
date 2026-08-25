@@ -33,11 +33,11 @@ The RuuviAnalyzer.analyze method is called every ~20 seconds. For each parameter
 
 ## Application Pages
 
-> Control Panel
+> Dashboard
 
 The buttons correspond to the previously described operations: start/final scan, stop app, and sync. Last determine the current state of the embedded application.
 
-> Dashboard
+> Info Panel
 
 A page consisting of two parts: analytics at the top, and at the bottom
 
