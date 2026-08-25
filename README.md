@@ -45,6 +45,7 @@ A page consisting of two parts: analytics at the top, and at the bottom
 
 No comments
 
+> Pictures
 
  <table>
   <tr>
