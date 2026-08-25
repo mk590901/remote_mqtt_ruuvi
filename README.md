@@ -46,3 +46,8 @@ A page consisting of two parts: analytics at the top, and at the bottom
 No comments
 
 ## Movie
+
+Hereinafter, a short video demonstrating the app's operation, displaying sensor information:
+
+https://github.com/user-attachments/assets/4cddfbdd-0ed0-47fd-97c1-e88869990d88
+
