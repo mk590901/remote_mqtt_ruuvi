@@ -8,10 +8,10 @@ class FixedBuffer<T> {
     }
   }
 
-  /// Добавляет элемент в конец буфера.
-  /// Если буфер уже заполнен — сдвигает все элементы влево (удаляет самый старый)
-  /// и записывает новый элемент в конец.
-  void put(T element) {
+  /// Adds an element to the end of the buffer.
+  /// If the buffer is already full, shifts all elements to the left (removes the oldest)
+  /// and writes the new element to the end.
+   void put(T element) {
     if (_buffer.length < bufferSize) {
       _buffer.add(element);
     } else {
@@ -20,15 +20,15 @@ class FixedBuffer<T> {
     }
   }
 
-  /// Возвращает копию текущего содержимого буфера.
+  /// Returns a copy of the current contents of the buffer.
   List<T> getList() => List<T>.from(_buffer);
 
-  /// Текущее количество элементов
+  /// Current number of elements.
   int get length => _buffer.length;
 
-  /// Заполнен ли буфер
+  /// Is the buffer full?
   bool get isFull => _buffer.length == bufferSize;
 
-  /// Очистить буфер
+  /// Clear buffer.
   void clear() => _buffer.clear();
 }
